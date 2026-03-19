@@ -27,8 +27,8 @@
                             bg: '#0B0F1A',
                             surface: '#121826',
                             surfaceHighlight: '#1A2336',
-                            accent: '#FF3B5C',
-                            accentHover: '#E63552',
+                            accent: '#8B5CF6',
+                            accentHover: '#7C3AED',
                             success: '#22C55E',
                             warning: '#F59E0B',
                             info: '#3B82F6',
@@ -42,8 +42,8 @@
                         body: ['var(--font-body-name)', 'sans-serif'],
                     },
                     boxShadow: {
-                        'glow': '0 0 20px -5px rgba(255, 59, 92, 0.25)',
-                        'glow-strong': '0 0 25px -5px rgba(255, 59, 92, 0.5)',
+                        'glow': '0 0 20px -5px rgba(139, 92, 246, 0.35)',
+                        'glow-strong': '0 0 25px -5px rgba(139, 92, 246, 0.6)',
                         'glow-success': '0 0 20px -5px rgba(34, 197, 94, 0.25)',
                         'card': '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.15)',
                         'inner-light': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
@@ -64,6 +64,23 @@
     </script>
 
     <style>
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, #1A2336 25%, #1F2D45 50%, #1A2336 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+
         :root {
             --font-heading-name: 'Space Grotesk';
             --font-body-name: 'Inter';
@@ -72,11 +89,46 @@
             --radius-large: 0.75rem;
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
         body {
             background-color: #0B0F1A;
             color: #FFFFFF;
             height: auto;
             min-height: 100%;
+            animation: fadeIn 0.3s ease-in;
+            font-size: 15px;
+        }
+
+        h1 {
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: clamp(20px, 3vw, 30px);
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-size: clamp(16px, 2vw, 20px);
+            font-weight: 600;
+        }
+
+        p,
+        li,
+        span {
+            line-height: 1.6;
         }
 
         /* Custom Scrollbar */
@@ -175,18 +227,41 @@
             animation: slideIn 0.3s ease-out;
         }
 
-        .focus-ring-dragon:focus {
-            box-shadow: 0 0 0 2px rgba(var(--dragon-accent-rgb), 0.2);
-            border-color: rgba(var(--dragon-accent-rgb), 0.5);
+        .job-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* Desktop closed state for intelligence panel */
-        @media (min-width: 1024px) {
-            #intelligence-panel.closed {
-                width: 0 !important;
-                overflow: hidden !important;
-                border: none !important;
-            }
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button {
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        button:focus-visible {
+            outline: 2px solid #8B5CF6;
+            outline-offset: 2px;
+        }
+
+        input:focus-visible,
+        select:focus-visible {
+            outline: 2px solid #8B5CF6;
+        }
+
+        #intelligence-panel.closed {
+            width: 0 !important;
+            overflow: hidden !important;
+            border: none !important;
+        }
+
+        * {
+            min-font-size: 12px;
         }
     </style>
 </head>
@@ -214,7 +289,7 @@
             class="flex flex-col items-center justify-center gap-1 p-2 text-dragon-muted hover:text-white w-16 transition-colors">
             <div class="w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 p-[1px]">
                 <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80"
-                    alt="User" class="rounded-full w-full h-full object-cover">
+                    alt="User profile photo" class="rounded-full w-full h-full object-cover">
             </div>
             <span class="text-[10px] font-medium">Profile</span>
         </button>
@@ -229,10 +304,10 @@
             <div class="p-6">
                 <div class="flex items-center gap-3">
                     <div
-                        class="w-10 h-10 rounded-xl bg-[#ff1b4b] flex items-center justify-center text-white font-bold text-xl shadow-[0_0_20px_rgba(255,27,75,0.3)]">
+                        class="w-10 h-10 rounded-xl bg-[#8B5CF6] flex items-center justify-center text-white font-bold text-xl shadow-[0_0_20px_rgba(139,92,246,0.3)]">
                         DS</div>
                     <h1 class="font-heading text-xl font-bold tracking-tight">Dragon<span
-                            class="text-[#ff1b4b]">Suite</span></h1>
+                            class="text-[#8B5CF6]">Suite</span></h1>
                 </div>
             </div>
 
@@ -240,12 +315,12 @@
             <div class="flex-1 overflow-y-auto px-4 space-y-8 select-none custom-scrollbar pb-6">
                 <!-- Dragon AI Promo -->
                 <div
-                    class="bg-[#ff1b4b]/5 border border-[#ff1b4b]/20 rounded-xl p-3 flex items-center gap-3 group cursor-pointer hover:bg-[#ff1b4b]/10 transition-colors">
+                    class="bg-[#8B5CF6]/5 border border-[#8B5CF6]/20 rounded-xl p-3 flex items-center gap-3 group cursor-pointer hover:bg-[#8B5CF6]/10 transition-colors">
                     <div
-                        class="w-8 h-8 rounded-lg bg-[#ff1b4b]/20 flex items-center justify-center border border-[#ff1b4b]/30">
-                        <i data-lucide="message-square" class="w-4 h-4 text-[#ff1b4b]"></i>
+                        class="w-8 h-8 rounded-lg bg-[#8B5CF6]/20 flex items-center justify-center border border-[#8B5CF6]/30">
+                        <i data-lucide="message-square" class="w-4 h-4 text-[#8B5CF6]"></i>
                     </div>
-                    <span class="text-xs font-bold text-[#ff1b4b]">Dragon AI</span>
+                    <span class="text-xs font-bold text-[#8B5CF6]">Dragon AI</span>
                 </div>
 
                 <!-- Category: Talent Side -->
@@ -287,6 +362,7 @@
                         <i data-lucide="shield" class="w-4 h-4 group-hover:text-dragon-accent"></i>
                         <span class="text-sm font-semibold">Dragon Quest</span>
                     </a>
+
                     <a href="#"
                         class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/5 text-white border border-white/5 group shadow-lg">
                         <i data-lucide="globe" class="w-4 h-4 text-dragon-accent"></i>
@@ -371,7 +447,8 @@
             <div class="p-4 border-t border-[#1e293b]/30">
                 <div
                     class="px-4 py-3 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center gap-2.5">
-                    <div class="w-2 h-2 rounded-full bg-[#ff1b4b] animate-pulse shadow-[0_0_10px_rgba(255,27,75,0.8)]">
+                    <div
+                        class="w-2 h-2 rounded-full bg-[#8B5CF6] animate-pulse shadow-[0_0_10px_rgba(139, 92, 246, 0.8)]">
                     </div>
                     <span class="text-[11px] font-bold text-white uppercase tracking-widest">Talent Mode</span>
                 </div>
@@ -403,24 +480,7 @@
 
                     <!-- Dragon Hub Branding with Category Tabs -->
                     <div class="space-y-4">
-                        <!-- Logo and Tagline -->
-                        <div class="flex items-center gap-3">
-                            <div
-                                class="w-10 h-10 rounded-xl bg-gradient-to-br from-dragon-accent to-purple-600 flex items-center justify-center shadow-glow">
-                                <i data-lucide="globe" class="text-white w-6 h-6"></i>
-                            </div>
-                            <div>
-                                <div class="flex items-center gap-2">
-                                    <h1 class="font-heading text-xl font-bold text-white tracking-tight">Dragon Hub</h1>
-                                    <span
-                                        class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">Unified
-                                        Aggregator</span>
-                                </div>
-                                <p class="text-xs text-dragon-muted mt-0.5">Jobs, internships, freelance gigs,
-                                    upskilling content, and problems — aggregated from 50+ platforms into one
-                                    intelligent feed.</p>
-                            </div>
-                        </div>
+
 
                         <!-- Category Tabs -->
                         <div class="flex gap-2 overflow-x-auto hide-scrollbar">
@@ -449,6 +509,27 @@
                                 <i data-lucide="trophy" class="w-4 h-4"></i> Challenges
                             </button>
                         </div>
+
+                        <!-- Stats Bar -->
+                        <div
+                            class="flex items-center justify-center gap-6 py-3 bg-dragon-surface/50 rounded-lg border border-dragon-border text-xs font-bold text-white">
+                            <span>🔥 <span class="text-dragon-accent">84,320+</span> Live Jobs</span>
+                            <span class="w-px h-4 bg-dragon-border"></span>
+                            <span>🏢 <span class="text-dragon-accent">54</span> Companies</span>
+                            <span class="w-px h-4 bg-dragon-border"></span>
+                            <span>👥 <span class="text-dragon-accent">1,000+</span> Users</span>
+                        </div>
+
+                        <!-- AI Feature Explanation -->
+                        <div
+                            class="flex items-start gap-3 p-4 bg-dragon-accent/5 border border-dragon-accent/20 rounded-lg">
+                            <i data-lucide="cpu" class="w-5 h-5 text-dragon-accent shrink-0 mt-0.5"></i>
+                            <p class="text-xs text-dragon-muted">
+                                <span class="font-bold text-white">AI-Powered Matching: </span>
+                                Our AI analyzes your skills, experience, and career goals to automatically match you
+                                with the most relevant jobs — ranked by fit score.
+                            </p>
+                        </div>
                     </div>
 
                     <!-- Next Best Action Banner -->
@@ -458,7 +539,7 @@
                             class="bg-dragon-bg/50 backdrop-blur-sm rounded-lg p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-12 h-12 rounded-full bg-dragon-accent/20 flex items-center justify-center text-dragon-accent animate-pulse-slow shrink-0 shadow-[0_0_20px_rgba(255,59,92,0.2)]">
+                                    class="w-12 h-12 rounded-full bg-dragon-accent/20 flex items-center justify-center text-dragon-accent animate-pulse-slow shrink-0 shadow-[0_0_20px_rgba(183,110,121,0.2)]">
                                     <i data-lucide="sparkles" class="w-6 h-6"></i>
                                 </div>
                                 <div>
@@ -477,7 +558,7 @@
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
                         <div class="bg-dragon-surface p-4 rounded-large border border-dragon-border">
                             <div
-                                class="text-dragon-muted text-[10px] lg:text-xs font-medium uppercase tracking-wider mb-1">
+                                class="text-[#6d4aad] text-[10px] lg:text-xs font-medium uppercase tracking-wider mb-1">
                                 Live Listings</div>
                             <div class="text-xl lg:text-2xl font-heading font-bold text-white">84,320</div>
                             <div class="text-[10px] lg:text-xs text-dragon-muted mt-1 flex items-center gap-1">
@@ -490,14 +571,14 @@
                                 class="absolute right-0 top-0 w-16 h-16 bg-dragon-accent/10 rounded-bl-full -mr-4 -mt-4 group-hover:bg-dragon-accent/20 transition-colors">
                             </div>
                             <div
-                                class="text-dragon-muted text-[10px] lg:text-xs font-medium uppercase tracking-wider mb-1">
+                                class="text-[#6d4aad] text-[10px] lg:text-xs font-medium uppercase tracking-wider mb-1">
                                 AI Matched</div>
                             <div class="text-xl lg:text-2xl font-heading font-bold text-white">247</div>
                             <div class="text-[10px] lg:text-xs text-dragon-accent mt-1">85%+ fit score</div>
                         </div>
                         <div class="bg-dragon-surface p-4 rounded-large border border-dragon-border">
                             <div
-                                class="text-dragon-muted text-[10px] lg:text-xs font-medium uppercase tracking-wider mb-1">
+                                class="text-[#6d4aad] text-[10px] lg:text-xs font-medium uppercase tracking-wider mb-1">
                                 New Today</div>
                             <div class="text-xl lg:text-2xl font-heading font-bold text-white">1,840</div>
                             <div class="text-[10px] lg:text-xs text-dragon-accent mt-1 flex items-center gap-1">
@@ -506,12 +587,16 @@
                         </div>
                         <div class="bg-dragon-surface p-4 rounded-large border border-dragon-border">
                             <div
-                                class="text-dragon-muted text-[10px] lg:text-xs font-medium uppercase tracking-wider mb-1">
+                                class="text-[#6d4aad] text-[10px] lg:text-xs font-medium uppercase tracking-wider mb-1">
                                 Sources</div>
                             <div class="text-xl lg:text-2xl font-heading font-bold text-white">54</div>
                             <div class="text-[10px] lg:text-xs text-dragon-muted mt-1">Active Sync</div>
                         </div>
                     </div>
+
+
+
+
 
                     <!-- Job Feed -->
                     <div class="space-y-6">
@@ -655,7 +740,8 @@
 
                                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-2">
                                     <div class="flex items-center gap-3">
-                                        <h2 id="feed-label" class="text-sm font-bold text-white uppercase tracking-wider">Top Matches
+                                        <h2 id="feed-label"
+                                            class="text-sm font-bold text-white uppercase tracking-wider">Top Matches
                                         </h2>
                                         <span id="feed-count"
                                             class="px-2 py-0.5 rounded bg-dragon-surfaceHighlight border border-dragon-border text-[10px] font-bold text-dragon-muted uppercase tracking-tighter">247
@@ -666,409 +752,438 @@
                                 <!-- Dynamic Feed Container -->
                                 <div id="dynamic-feed" class="hidden space-y-6"></div>
 
+                                <!-- Skeleton Feed (Loading State) -->
+                                <div id="skeleton-feed" class="space-y-4">
+                                    <div class="bg-dragon-surface rounded-large p-6 border border-dragon-border">
+                                        <div class="skeleton h-4 w-1/3 mb-3"></div>
+                                        <div class="skeleton h-6 w-2/3 mb-4"></div>
+                                        <div class="skeleton h-3 w-1/2 mb-2"></div>
+                                        <div class="skeleton h-3 w-1/4"></div>
+                                    </div>
+                                </div>
+
                                 <!-- All Jobs Feed Container -->
                                 <div id="all-jobs-feed" class="space-y-6">
-                                    
+
                                     <!-- Enhanced Active Job Card -->
-                                    <div class="job-card bg-dragon-surfaceHighlight rounded-large p-4 lg:p-6 border-l-4 border-l-dragon-accent border-y border-r border-dragon-border shadow-card cursor-pointer relative group transition-all transform hover:-translate-y-1">
+                                    <div
+                                        class="job-card bg-dragon-surfaceHighlight rounded-large p-4 lg:p-6 border-l-4 border-l-dragon-accent border-y border-r border-dragon-border shadow-card cursor-pointer relative group transition-all transform hover:-translate-y-1">
                                         <!-- Urgency Badge -->
-                                        <div class="absolute -top-3 left-4 bg-dragon-accent text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-glow-strong flex items-center gap-1 z-10 animate-pulse">
+                                        <div
+                                            class="absolute -top-3 left-4 bg-dragon-accent text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-glow-strong flex items-center gap-1 z-10 animate-pulse">
                                             <i data-lucide="flame" class="w-3 h-3 fill-current"></i> HOT JOB
                                         </div>
 
                                         <div class="absolute top-4 right-6 flex flex-col items-end gap-2">
                                             <div class="flex items-center gap-2">
-                                                <button class="compare-btn p-2 rounded-lg bg-dragon-surface/80 border border-dragon-border/50 text-dragon-muted hover:text-dragon-info hover:border-dragon-info/50 transition-all group"
-                                                data-job='{"id":"1", "title":"Senior GenAI Research Engineer", "company":"Google DeepMind", "salary":"₹185K - ₹220K", "location":"Bangalore / Remote"}'>
-                                                <i data-lucide="git-compare"
-                                                    class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
-                                            </button>
-                                            <button
-                                                class="save-job-btn p-2 rounded-lg bg-dragon-surface/80 border border-dragon-border/50 text-dragon-muted hover:text-dragon-accent hover:border-dragon-accent/50 transition-all group"
-                                                data-job-id="1" data-job-title="Senior GenAI Research Engineer">
-                                                <i data-lucide="bookmark"
-                                                    class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
-                                            </button>
+                                                <button aria-label="Compare job"
+                                                    class="compare-btn p-2 rounded-lg bg-dragon-surface/80 border border-dragon-border/50 text-dragon-muted hover:text-dragon-info hover:border-dragon-info/50 transition-all group"
+                                                    data-job='{"id":"1", "title":"Senior GenAI Research Engineer", "company":"Google DeepMind", "salary":"₹185K - ₹220K", "location":"Bangalore / Remote"}'>
+                                                    <i data-lucide="git-compare"
+                                                        class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
+                                                </button>
+                                                <button aria-label="Save job"
+                                                    class="save-job-btn p-2 rounded-lg bg-dragon-surface/80 border border-dragon-border/50 text-dragon-muted hover:text-dragon-accent hover:border-dragon-accent/50 transition-all group"
+                                                    data-job-id="1" data-job-title="Senior GenAI Research Engineer">
+                                                    <i data-lucide="bookmark"
+                                                        class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
+                                                </button>
+                                            </div>
+                                            <span
+                                                class="text-xs font-bold text-dragon-accent bg-dragon-accent/10 px-2 py-1 rounded border border-dragon-accent/20">96%
+                                                Match</span>
                                         </div>
-                                        <span
-                                            class="text-xs font-bold text-dragon-accent bg-dragon-accent/10 px-2 py-1 rounded border border-dragon-accent/20">96%
-                                            Match</span>
-                                    </div>
 
-                                    <div class="flex gap-4 mb-4 mt-1">
-                                        <div
-                                            class="w-12 h-12 rounded-lg bg-white flex items-center justify-center shrink-0 shadow-sm">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"
-                                                alt="Google" class="w-8 h-8">
-                                        </div>
-                                        <div class="pr-16">
-                                            <h3
-                                                class="font-heading font-bold text-dragon-accent text-lg leading-tight group-hover:text-dragon-accent/80 transition-colors">
-                                                Senior GenAI Research Engineer</h3>
-                                            <p class="text-sm text-dragon-muted flex items-center gap-1 mt-1">
-                                                Google DeepMind <span
-                                                    class="w-1 h-1 rounded-full bg-dragon-muted"></span>
-                                                via
-                                                LinkedIn
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <!-- Intelligence Layer -->
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
-                                        <div
-                                            class="bg-dragon-bg/50 rounded-lg p-3 border border-dragon-border/50 transition-colors hover:border-dragon-accent/30">
+                                        <div class="flex gap-4 mb-4 mt-1">
                                             <div
-                                                class="text-[10px] text-dragon-muted uppercase font-bold tracking-widest mb-1.5">
-                                                Salary & Location</div>
-                                            <div class="text-xs font-bold text-white flex items-center gap-3">
-                                                <span class="flex items-center gap-1"><i data-lucide="map-pin"
-                                                        class="w-3.5 h-3.5 text-dragon-muted"></i> Bangalore /
-                                                    Remote</span>
-                                                <span class="flex items-center gap-1"><i data-lucide="banknote"
-                                                        class="w-3.5 h-3.5 text-dragon-success"></i> ₹185K -
-                                                    ₹220K</span>
+                                                class="w-12 h-12 rounded-lg bg-white flex items-center justify-center shrink-0 shadow-sm">
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg"
+                                                    alt="Google company logo" class="w-8 h-8">
+                                            </div>
+                                            <div class="pr-16">
+                                                <h3
+                                                    class="font-heading font-bold text-dragon-accent text-lg leading-tight group-hover:text-dragon-accent/80 transition-colors">
+                                                    Senior GenAI Research Engineer</h3>
+                                                <p class="text-sm text-dragon-muted flex items-center gap-1 mt-1">
+                                                    Google DeepMind <span
+                                                        class="w-1 h-1 rounded-full bg-dragon-muted"></span>
+                                                    via
+                                                    LinkedIn
+                                                </p>
                                             </div>
                                         </div>
-                                        <div
-                                            class="bg-dragon-bg/50 rounded-lg p-3 border border-dragon-border/50 transition-colors hover:border-dragon-accent/30">
+
+                                        <!-- Intelligence Layer -->
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
                                             <div
-                                                class="text-[10px] text-dragon-muted uppercase font-bold tracking-widest mb-1.5">
-                                                Post Status</div>
-                                            <div class="text-xs font-bold text-white flex items-center gap-2">
-                                                <i data-lucide="clock-4" class="w-4 h-4 text-dragon-accent"></i>
-                                                Posted 2h ago
+                                                class="bg-dragon-bg/50 rounded-lg p-3 border border-dragon-border/50 transition-colors hover:border-dragon-accent/30">
+                                                <div
+                                                    class="text-[10px] text-dragon-muted uppercase font-bold tracking-widest mb-1.5">
+                                                    Salary & Location</div>
+                                                <div class="text-xs font-bold text-white flex items-center gap-3">
+                                                    <span class="flex items-center gap-1"><i data-lucide="map-pin"
+                                                            class="w-3.5 h-3.5 text-dragon-muted"></i> Bangalore /
+                                                        Remote</span>
+                                                    <span class="flex items-center gap-1"><i data-lucide="banknote"
+                                                            class="w-3.5 h-3.5 text-dragon-success"></i> ₹185K -
+                                                        ₹220K</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-wrap gap-2">
-                                        <span
-                                            class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">RAG</span>
-                                        <span
-                                            class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">LLM</span>
-                                        <span
-                                            class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">PyTorch</span>
-                                        <span
-                                            class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">Databricks</span>
-                                        <!-- FIX 4: Tooltip for Recommended Tag -->
-                                        <span
-                                            class="px-2 py-1 rounded text-[10px] font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center gap-1 tooltip-trigger relative cursor-help">
-                                            <i data-lucide="sparkles" class="w-3 h-3"></i> Recommended
                                             <div
-                                                class="tooltip-content absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 bg-black border border-dragon-border p-2 rounded text-[9px] text-dragon-muted z-20 shadow-xl text-center">
-                                                Recommended by AI based on your strong match with PyTorch and System
-                                                Design.
-                                            </div>
-                                        </span>
-                                    </div>
-
-                                    <div
-                                        class="mt-5 pt-4 border-t border-dragon-border/50 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        <!-- Button 1: Inline AI Match Analysis -->
-                                        <button
-                                            class="intelligence-toggle w-full py-2.5 rounded bg-dragon-surface hover:bg-dragon-surfaceHighlight border border-dragon-border hover:border-dragon-muted/50 text-dragon-muted hover:text-white text-[11px] font-bold transition-all flex items-center justify-center gap-2 group"
-                                            data-target="analysis-card-1">
-                                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                                            <span class="toggle-text">View AI Match Analysis</span>
-                                            <i data-lucide="chevron-down"
-                                                class="w-3 h-3 toggle-icon transition-transform"></i>
-                                        </button>
-
-                                        <!-- Button 2: Side Intelligence Report -->
-                                        <button
-                                            class="intelligence-sidebar-trigger w-full py-2.5 rounded bg-dragon-accent/10 hover:bg-dragon-accent text-dragon-accent hover:text-white border border-dragon-accent/30 hover:border-dragon-accent text-[11px] font-bold transition-all flex items-center justify-center gap-2 shadow-sm"
-                                            type="button">
-                                            <i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i>
-                                            <span>View Intelligence Report</span>
-                                        </button>
-                                    </div>
-
-                                    <!-- Expanded Content (Hidden by default) -->
-                                    <div id="analysis-card-1" class="intelligence-content mt-6 space-y-6"
-                                        style="display: none;">
-                                        <!-- AI Match Analysis Grid -->
-                                        <div>
-                                            <div class="flex items-center justify-between mb-4">
-                                                <div class="flex items-center gap-2">
-                                                    <i data-lucide="sparkles"
-                                                        class="w-5 h-5 text-dragon-accent fill-dragon-accent/20"></i>
-                                                    <span
-                                                        class="text-sm font-bold text-white uppercase tracking-wider">AI
-                                                        Match Analysis</span>
-                                                </div>
-                                                <span class="text-[10px] text-dragon-muted font-medium">Powered by
-                                                    DragonAI</span>
-                                            </div>
-
-                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <!-- Strong Match -->
+                                                class="bg-dragon-bg/50 rounded-lg p-3 border border-dragon-border/50 transition-colors hover:border-dragon-accent/30">
                                                 <div
-                                                    class="bg-dragon-bg/50 rounded-xl p-4 border border-dragon-success/20">
-                                                    <div class="flex items-center gap-2 mb-3">
-                                                        <span class="w-2 h-2 rounded-full bg-dragon-success"></span>
-                                                        <span class="text-xs font-bold text-white">Strong Match</span>
-                                                    </div>
-                                                    <div class="flex flex-wrap gap-2">
-                                                        <span
-                                                            class="px-3 py-1 rounded-lg text-[11px] font-medium bg-dragon-success/10 text-dragon-success border border-dragon-success/20">Python</span>
-                                                        <span
-                                                            class="px-3 py-1 rounded-lg text-[11px] font-medium bg-dragon-success/10 text-dragon-success border border-dragon-success/20">Machine
-                                                            Learning</span>
-                                                        <span
-                                                            class="px-3 py-1 rounded-lg text-[11px] font-medium bg-dragon-success/10 text-dragon-success border border-dragon-success/20">SQL</span>
-                                                        <span
-                                                            class="px-3 py-1 rounded-lg text-[11px] font-medium bg-dragon-success/10 text-dragon-success border border-dragon-success/20">Data
-                                                            Analysis</span>
-                                                    </div>
-                                                </div>
-                                                <!-- Missing / Weak -->
-                                                <div
-                                                    class="bg-dragon-bg/50 rounded-xl p-4 border border-dragon-warning/20">
-                                                    <div class="flex items-center gap-2 mb-3">
-                                                        <span class="w-2 h-2 rounded-full bg-dragon-warning"></span>
-                                                        <span class="text-xs font-bold text-white">Missing / Weak</span>
-                                                    </div>
-                                                    <div class="flex flex-wrap gap-2">
-                                                        <span
-                                                            class="px-3 py-1 rounded-lg text-[11px] font-medium bg-dragon-warning/10 text-dragon-warning border border-dragon-warning/20">System
-                                                            Design</span>
-                                                        <span
-                                                            class="px-3 py-1 rounded-lg text-[11px] font-medium bg-dragon-warning/10 text-dragon-warning border border-dragon-warning/20">Distributed
-                                                            Systems</span>
-                                                    </div>
+                                                    class="text-[10px] text-dragon-muted uppercase font-bold tracking-widest mb-1.5">
+                                                    Post Status</div>
+                                                <div class="text-xs font-bold text-white flex items-center gap-2">
+                                                    <i data-lucide="clock-4" class="w-4 h-4 text-dragon-accent"></i>
+                                                    Posted 2h ago
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <!-- Why This Job Matches You -->
-                                        <div>
-                                            <h4 class="text-sm font-bold text-white mb-3 tracking-wide">Why This Job
-                                                Matches
-                                                You</h4>
-                                            <ul class="space-y-3">
-                                                <li class="flex items-start gap-3">
-                                                    <i data-lucide="check"
-                                                        class="w-4 h-4 text-dragon-success mt-0.5 shrink-0"></i>
-                                                    <p class="text-xs lg:text-sm text-dragon-muted leading-relaxed">Your
-                                                        Python experience (5+ years) strongly matches the job
-                                                        requirements.
-                                                    </p>
-                                                </li>
-                                                <li class="flex items-start gap-3">
-                                                    <i data-lucide="check"
-                                                        class="w-4 h-4 text-dragon-success mt-0.5 shrink-0"></i>
-                                                    <p class="text-xs lg:text-sm text-dragon-muted leading-relaxed">Your
-                                                        machine learning background aligns perfectly with the GenAI
-                                                        role.
-                                                    </p>
-                                                </li>
-                                                <li class="flex items-start gap-3">
-                                                    <i data-lucide="check"
-                                                        class="w-4 h-4 text-dragon-success mt-0.5 shrink-0"></i>
-                                                    <p class="text-xs lg:text-sm text-dragon-muted leading-relaxed">Your
-                                                        seniority level fits the required range (Senior Engineer).</p>
-                                                </li>
-                                            </ul>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span
+                                                class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">RAG</span>
+                                            <span
+                                                class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">LLM</span>
+                                            <span
+                                                class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">PyTorch</span>
+                                            <span
+                                                class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">Databricks</span>
+                                            <!-- FIX 4: Tooltip for Recommended Tag -->
+                                            <span
+                                                class="px-2 py-1 rounded text-[10px] font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20 flex items-center gap-1 tooltip-trigger relative cursor-help">
+                                                <i data-lucide="sparkles" class="w-3 h-3"></i> Recommended
+                                                <div
+                                                    class="tooltip-content absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 bg-black border border-dragon-border p-2 rounded text-[11px] text-dragon-muted z-20 shadow-xl text-center">
+                                                    Recommended by AI based on your strong match with PyTorch and System
+                                                    Design.
+                                                </div>
+                                            </span>
                                         </div>
 
-                                        <!-- Skill Gap Callout -->
                                         <div
-                                            class="bg-dragon-warning/5 rounded-xl p-5 border border-dragon-warning/20 relative group/gap overflow-hidden">
-                                            <div class="flex items-start gap-4">
-                                                <div
-                                                    class="w-10 h-10 rounded-xl bg-dragon-warning/10 flex items-center justify-center shrink-0">
-                                                    <i data-lucide="alert-triangle"
-                                                        class="w-5 h-5 text-dragon-warning"></i>
-                                                </div>
-                                                <div class="pr-20">
-                                                    <h4 class="text-sm font-bold text-white mb-1">Skill Gap Detected
-                                                    </h4>
-                                                    <p class="text-xs text-dragon-muted mb-4">Improve these skills to
-                                                        increase your match score to 99%:</p>
-                                                    <div class="flex flex-wrap gap-2">
+                                            class="mt-5 pt-4 border-t border-dragon-border/50 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <!-- Button 1: Inline AI Match Analysis -->
+                                            <button
+                                                class="intelligence-toggle w-full py-2.5 rounded bg-dragon-surface hover:bg-dragon-surfaceHighlight border border-dragon-border hover:border-dragon-muted/50 text-dragon-muted hover:text-white text-[11px] font-bold transition-all flex items-center justify-center gap-2 group"
+                                                data-target="analysis-card-1">
+                                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                                                <span class="toggle-text">View AI Match Analysis</span>
+                                                <i data-lucide="chevron-down"
+                                                    class="w-3 h-3 toggle-icon transition-transform"></i>
+                                            </button>
+
+                                            <!-- Button 2: Side Intelligence Report -->
+                                            <button
+                                                class="intelligence-sidebar-trigger w-full py-2.5 rounded bg-dragon-accent/10 hover:bg-dragon-accent text-dragon-accent hover:text-white border border-dragon-accent/30 hover:border-dragon-accent text-[11px] font-bold transition-all flex items-center justify-center gap-2 shadow-sm"
+                                                type="button">
+                                                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i>
+                                                <span>View Intelligence Report</span>
+                                            </button>
+                                        </div>
+
+                                        <!-- Expanded Content (Hidden by default) -->
+                                        <div id="analysis-card-1" class="intelligence-content mt-6 space-y-6"
+                                            style="display: none;">
+                                            <!-- AI Match Analysis Grid -->
+                                            <div>
+                                                <div class="flex items-center justify-between mb-4">
+                                                    <div class="flex items-center gap-2">
+                                                        <i data-lucide="sparkles"
+                                                            class="w-5 h-5 text-dragon-accent fill-dragon-accent/20"></i>
                                                         <span
-                                                            class="px-2 py-1 rounded bg-dragon-warning/10 text-dragon-warning border border-dragon-warning/20 text-[10px] font-bold">System
-                                                            Design</span>
-                                                        <span
-                                                            class="px-2 py-1 rounded bg-dragon-warning/10 text-dragon-warning border border-dragon-warning/20 text-[10px] font-bold">Distributed
-                                                            Systems</span>
+                                                            class="text-sm font-bold text-white uppercase tracking-wider">AI
+                                                            Match Analysis</span>
+                                                    </div>
+                                                    <span class="text-[10px] text-dragon-muted font-medium">Powered by
+                                                        DragonAI</span>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <!-- Strong Match -->
+                                                    <div
+                                                        class="bg-dragon-bg/50 rounded-xl p-4 border border-dragon-success/20">
+                                                        <div class="flex items-center gap-2 mb-3">
+                                                            <span class="w-2 h-2 rounded-full bg-dragon-success"></span>
+                                                            <span class="text-xs font-bold text-white">Strong
+                                                                Match</span>
+                                                        </div>
+                                                        <div class="flex flex-wrap gap-2">
+                                                            <span
+                                                                class="px-3 py-1 rounded-lg text-[11px] font-medium bg-dragon-success/10 text-dragon-success border border-dragon-success/20">Python</span>
+                                                            <span
+                                                                class="px-3 py-1 rounded-lg text-[11px] font-medium bg-dragon-success/10 text-dragon-success border border-dragon-success/20">Machine
+                                                                Learning</span>
+                                                            <span
+                                                                class="px-3 py-1 rounded-lg text-[11px] font-medium bg-dragon-success/10 text-dragon-success border border-dragon-success/20">SQL</span>
+                                                            <span
+                                                                class="px-3 py-1 rounded-lg text-[11px] font-medium bg-dragon-success/10 text-dragon-success border border-dragon-success/20">Data
+                                                                Analysis</span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Missing / Weak -->
+                                                    <div
+                                                        class="bg-dragon-bg/50 rounded-xl p-4 border border-dragon-warning/20">
+                                                        <div class="flex items-center gap-2 mb-3">
+                                                            <span class="w-2 h-2 rounded-full bg-dragon-warning"></span>
+                                                            <span class="text-xs font-bold text-white">Missing /
+                                                                Weak</span>
+                                                        </div>
+                                                        <div class="flex flex-wrap gap-2">
+                                                            <span
+                                                                class="px-3 py-1 rounded-lg text-[11px] font-medium bg-[#FAEEDA] text-[#633806] border border-[#EF9F27]/40">System
+                                                                Design</span>
+                                                            <span
+                                                                class="px-3 py-1 rounded-lg text-[11px] font-medium bg-[#FAEEDA] text-[#633806] border border-[#EF9F27]/40">Distributed
+                                                                Systems</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button
-                                                class="absolute top-5 right-5 px-3 py-1.5 rounded bg-dragon-surfaceHighlight border border-dragon-border text-[10px] font-bold text-white hover:bg-dragon-accent hover:border-dragon-accent transition-all">
-                                                View Details
-                                            </button>
+
+                                            <!-- Why This Job Matches You -->
+                                            <div>
+                                                <h4 class="text-sm font-bold text-white mb-3 tracking-wide">Why This Job
+                                                    Matches
+                                                    You</h4>
+                                                <ul class="space-y-3">
+                                                    <li class="flex items-start gap-3">
+                                                        <i data-lucide="check"
+                                                            class="w-4 h-4 text-dragon-success mt-0.5 shrink-0"></i>
+                                                        <p class="text-xs lg:text-sm text-dragon-muted leading-relaxed">
+                                                            Your
+                                                            Python experience (5+ years) strongly matches the job
+                                                            requirements.
+                                                        </p>
+                                                    </li>
+                                                    <li class="flex items-start gap-3">
+                                                        <i data-lucide="check"
+                                                            class="w-4 h-4 text-dragon-success mt-0.5 shrink-0"></i>
+                                                        <p class="text-xs lg:text-sm text-dragon-muted leading-relaxed">
+                                                            Your
+                                                            machine learning background aligns perfectly with the GenAI
+                                                            role.
+                                                        </p>
+                                                    </li>
+                                                    <li class="flex items-start gap-3">
+                                                        <i data-lucide="check"
+                                                            class="w-4 h-4 text-dragon-success mt-0.5 shrink-0"></i>
+                                                        <p class="text-xs lg:text-sm text-dragon-muted leading-relaxed">
+                                                            Your
+                                                            seniority level fits the required range (Senior Engineer).
+                                                        </p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <!-- Skill Gap Callout -->
+                                            <div
+                                                class="bg-dragon-warning/5 rounded-xl p-5 border border-dragon-warning/20 relative group/gap overflow-hidden">
+                                                <div class="flex items-start gap-4">
+                                                    <div
+                                                        class="w-10 h-10 rounded-xl bg-dragon-warning/10 flex items-center justify-center shrink-0">
+                                                        <i data-lucide="alert-triangle"
+                                                            class="w-5 h-5 text-dragon-warning"></i>
+                                                    </div>
+                                                    <div class="pr-20">
+                                                        <h4 class="text-sm font-bold text-white mb-1">Skill Gap Detected
+                                                        </h4>
+                                                        <p class="text-xs text-dragon-muted mb-4">Improve these skills
+                                                            to
+                                                            increase your match score to 99%:</p>
+                                                        <div class="flex flex-wrap gap-2">
+                                                            <span
+                                                                class="px-2 py-1 rounded bg-[#FAEEDA] text-[#633806] border border-[#EF9F27]/40 text-[10px] font-bold">System
+                                                                Design</span>
+                                                            <span
+                                                                class="px-2 py-1 rounded bg-[#FAEEDA] text-[#633806] border border-[#EF9F27]/40 text-[10px] font-bold">Distributed
+                                                                Systems</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    class="absolute top-5 right-5 px-3 py-1.5 rounded bg-dragon-surfaceHighlight border border-dragon-border text-[10px] font-bold text-white hover:bg-dragon-accent hover:border-dragon-accent transition-all">
+                                                    View Details
+                                                </button>
+                                            </div>
+
+                                            <!-- Recommended Learning -->
+                                            <div>
+                                                <div class="flex items-center gap-2 mb-4">
+                                                    <i data-lucide="graduation-cap"
+                                                        class="w-4 h-4 text-dragon-info"></i>
+                                                    <h4
+                                                        class="text-[11px] font-bold text-white uppercase tracking-widest">
+                                                        Recommended Learning Resources</h4>
+                                                </div>
+                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <!-- Resource 1 -->
+                                                    <div
+                                                        class="bg-dragon-bg/50 rounded-xl p-4 border border-dragon-border hover:border-dragon-info/30 transition-all cursor-pointer group/card">
+                                                        <div class="flex items-center gap-4">
+                                                            <div
+                                                                class="w-12 h-12 rounded-lg bg-[#0056D2] flex items-center justify-center shrink-0">
+                                                                <span class="text-white font-black text-xl">C</span>
+                                                            </div>
+                                                            <div>
+                                                                <p
+                                                                    class="text-[10px] text-dragon-info font-bold mb-0.5">
+                                                                    Coursera</p>
+                                                                <h5
+                                                                    class="text-xs font-bold text-white group-hover/card:text-dragon-info transition-colors">
+                                                                    System Design Fundamentals</h5>
+                                                                <p class="text-[10px] text-dragon-muted mt-1">
+                                                                    Intermediate •
+                                                                    40
+                                                                    hours</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Resource 2 -->
+                                                    <div
+                                                        class="bg-dragon-bg/50 rounded-xl p-4 border border-dragon-border hover:border-dragon-accent/30 transition-all cursor-pointer group/card">
+                                                        <div class="flex items-center gap-4">
+                                                            <div
+                                                                class="w-12 h-12 rounded-lg bg-black flex items-center justify-center shrink-0">
+                                                                <span class="text-white font-black text-xl">U</span>
+                                                            </div>
+                                                            <div>
+                                                                <p
+                                                                    class="text-[10px] text-dragon-info font-bold mb-0.5">
+                                                                    Udemy
+                                                                </p>
+                                                                <h5
+                                                                    class="text-xs font-bold text-white group-hover/card:text-dragon-accent transition-colors">
+                                                                    Mastering Distributed Systems</h5>
+                                                                <p class="text-[10px] text-dragon-muted mt-1">Advanced •
+                                                                    12
+                                                                    hours</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Card Action Footer -->
+                                            <div class="flex items-center gap-2 pt-4 border-t border-dragon-border/50">
+                                                <button
+                                                    class="flex-1 py-2 bg-dragon-accent hover:bg-dragon-accentHover text-white font-bold rounded-lg transition-all shadow-glow flex items-center justify-center gap-2 text-xs">
+                                                    Apply Now <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                                                </button>
+                                                <button
+                                                    class="p-2 rounded-lg bg-dragon-surfaceHighlight border border-dragon-border text-dragon-muted hover:text-dragon-accent hover:border-dragon-accent/50 transition-all focus:outline-none">
+                                                    <i data-lucide="bookmark" class="w-4 h-4"></i>
+                                                </button>
+                                                <button aria-label="Share job"
+                                                    class="p-2 rounded-lg bg-dragon-surfaceHighlight border border-dragon-border text-dragon-muted hover:text-white transition-all">
+                                                    <i data-lucide="share-2" class="w-4 h-4"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Secondary Job Card -->
+                                    <div
+                                        class="job-card bg-dragon-surface rounded-large p-4 lg:p-6 border border-dragon-border shadow-card cursor-pointer hover:border-dragon-muted/30 transition-all opacity-80 hover:opacity-100 hover:bg-dragon-surfaceHighlight relative group">
+                                        <div class="absolute top-4 right-6 flex flex-col items-end gap-2">
+                                            <div class="flex items-center gap-2">
+                                                <button aria-label="Compare job"
+                                                    class="compare-btn p-2 rounded-lg bg-dragon-surface/80 border border-dragon-border/50 text-dragon-muted hover:text-dragon-info hover:border-dragon-info/50 transition-all group"
+                                                    title="Compare Job"
+                                                    data-job='{"id":"2", "title":"Backend Developer", "company":"Tech Corp", "salary":"₹140K - ₹160K", "location":"Remote"}'>
+                                                    <i data-lucide="git-compare"
+                                                        class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
+                                                </button>
+                                                <button aria-label="Save job"
+                                                    class="save-job-btn p-2 rounded-lg bg-dragon-surface/80 border border-dragon-border/50 text-dragon-muted hover:text-dragon-accent hover:border-dragon-accent/50 transition-all group"
+                                                    data-job-id="2" data-job-title="Backend Developer">
+                                                    <i data-lucide="bookmark"
+                                                        class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
+                                                </button>
+                                            </div>
+                                            <span
+                                                class="text-xs font-bold text-dragon-success bg-dragon-success/10 px-2 py-1 rounded border border-dragon-success/20">88%
+                                                Match</span>
                                         </div>
 
-                                        <!-- Recommended Learning -->
-                                        <div>
-                                            <div class="flex items-center gap-2 mb-4">
-                                                <i data-lucide="graduation-cap" class="w-4 h-4 text-dragon-info"></i>
-                                                <h4 class="text-[11px] font-bold text-white uppercase tracking-widest">
-                                                    Recommended Learning Resources</h4>
+                                        <div class="flex gap-4 mb-4">
+                                            <div
+                                                class="w-12 h-12 rounded-lg bg-[#0061ff] flex items-center justify-center shrink-0 shadow-sm">
+                                                <i data-lucide="box" class="text-white w-6 h-6"></i>
                                             </div>
-                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <!-- Resource 1 -->
+                                            <div>
+                                                <h3 class="font-heading font-bold text-white text-lg leading-tight">
+                                                    Backend
+                                                    Developer</h3>
+                                                <p class="text-sm text-dragon-muted">Dropbox • via Instahyre</p>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
+                                            <div
+                                                class="bg-dragon-bg/50 rounded-lg p-3 border border-dragon-border/50 transition-colors hover:border-dragon-accent/30">
                                                 <div
-                                                    class="bg-dragon-bg/50 rounded-xl p-4 border border-dragon-border hover:border-dragon-info/30 transition-all cursor-pointer group/card">
-                                                    <div class="flex items-center gap-4">
-                                                        <div
-                                                            class="w-12 h-12 rounded-lg bg-[#0056D2] flex items-center justify-center shrink-0">
-                                                            <span class="text-white font-black text-xl">C</span>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-[10px] text-dragon-info font-bold mb-0.5">
-                                                                Coursera</p>
-                                                            <h5
-                                                                class="text-xs font-bold text-white group-hover/card:text-dragon-info transition-colors">
-                                                                System Design Fundamentals</h5>
-                                                            <p class="text-[10px] text-dragon-muted mt-1">Intermediate •
-                                                                40
-                                                                hours</p>
-                                                        </div>
-                                                    </div>
+                                                    class="text-[10px] text-dragon-muted uppercase font-bold tracking-widest mb-1.5">
+                                                    Salary & Location</div>
+                                                <div class="text-xs font-bold text-white flex items-center gap-3">
+                                                    <span class="flex items-center gap-1"><i data-lucide="map-pin"
+                                                            class="w-3.5 h-3.5 text-dragon-muted"></i> Remote</span>
+                                                    <span class="flex items-center gap-1"><i data-lucide="banknote"
+                                                            class="w-3.5 h-3.5 text-dragon-success"></i> ₹160K -
+                                                        ₹190K</span>
                                                 </div>
-                                                <!-- Resource 2 -->
+                                            </div>
+                                            <div
+                                                class="bg-dragon-bg/50 rounded-lg p-3 border border-dragon-border/50 transition-colors hover:border-dragon-accent/30">
                                                 <div
-                                                    class="bg-dragon-bg/50 rounded-xl p-4 border border-dragon-border hover:border-dragon-accent/30 transition-all cursor-pointer group/card">
-                                                    <div class="flex items-center gap-4">
-                                                        <div
-                                                            class="w-12 h-12 rounded-lg bg-black flex items-center justify-center shrink-0">
-                                                            <span class="text-white font-black text-xl">U</span>
-                                                        </div>
-                                                        <div>
-                                                            <p class="text-[10px] text-dragon-info font-bold mb-0.5">
-                                                                Udemy
-                                                            </p>
-                                                            <h5
-                                                                class="text-xs font-bold text-white group-hover/card:text-dragon-accent transition-colors">
-                                                                Mastering Distributed Systems</h5>
-                                                            <p class="text-[10px] text-dragon-muted mt-1">Advanced • 12
-                                                                hours</p>
-                                                        </div>
-                                                    </div>
+                                                    class="text-[10px] text-dragon-muted uppercase font-bold tracking-widest mb-1.5">
+                                                    Post Status</div>
+                                                <div class="text-xs font-bold text-white flex items-center gap-2">
+                                                    <i data-lucide="clock-4" class="w-4 h-4 text-dragon-accent"></i>
+                                                    Posted 5h ago
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <!-- Card Action Footer -->
-                                        <div class="flex items-center gap-2 pt-4 border-t border-dragon-border/50">
-                                            <button
-                                                class="flex-1 py-2 bg-dragon-accent hover:bg-dragon-accentHover text-white font-bold rounded-lg transition-all shadow-glow flex items-center justify-center gap-2 text-xs">
-                                                Apply Now <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 rounded-lg bg-dragon-surfaceHighlight border border-dragon-border text-dragon-muted hover:text-dragon-accent hover:border-dragon-accent/50 transition-all focus:outline-none">
-                                                <i data-lucide="bookmark" class="w-4 h-4"></i>
-                                            </button>
-                                            <button
-                                                class="p-2 rounded-lg bg-dragon-surfaceHighlight border border-dragon-border text-dragon-muted hover:text-white transition-all">
-                                                <i data-lucide="share-2" class="w-4 h-4"></i>
-                                            </button>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span
+                                                class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">Python</span>
+                                            <span
+                                                class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">Django</span>
                                         </div>
-                                    </div>
-                                </div>
 
-                            <!-- Secondary Job Card -->
-                            <div
-                                class="job-card bg-dragon-surface rounded-large p-4 lg:p-6 border border-dragon-border shadow-card cursor-pointer hover:border-dragon-muted/30 transition-all opacity-80 hover:opacity-100 hover:bg-dragon-surfaceHighlight relative group">
-                                <div class="absolute top-4 right-6 flex flex-col items-end gap-2">
-                                    <div class="flex items-center gap-2">
-                                        <button
-                                            class="compare-btn p-2 rounded-lg bg-dragon-surface/80 border border-dragon-border/50 text-dragon-muted hover:text-dragon-info hover:border-dragon-info/50 transition-all group"
-                                            title="Compare Job"
-                                            data-job='{"id":"2", "title":"Backend Developer", "company":"Tech Corp", "salary":"₹140K - ₹160K", "location":"Remote"}'>
-                                            <i data-lucide="git-compare"
-                                                class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
-                                        </button>
-                                        <button
-                                            class="save-job-btn p-2 rounded-lg bg-dragon-surface/80 border border-dragon-border/50 text-dragon-muted hover:text-dragon-accent hover:border-dragon-accent/50 transition-all group"
-                                            data-job-id="2" data-job-title="Backend Developer">
-                                            <i data-lucide="bookmark"
-                                                class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
-                                        </button>
-                                    </div>
-                                    <span
-                                        class="text-xs font-bold text-dragon-success bg-dragon-success/10 px-2 py-1 rounded border border-dragon-success/20">88%
-                                        Match</span>
-                                </div>
-
-                                <div class="flex gap-4 mb-4">
-                                    <div
-                                        class="w-12 h-12 rounded-lg bg-[#0061ff] flex items-center justify-center shrink-0 shadow-sm">
-                                        <i data-lucide="box" class="text-white w-6 h-6"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="font-heading font-bold text-white text-lg leading-tight">Backend
-                                            Developer</h3>
-                                        <p class="text-sm text-dragon-muted">Dropbox • via Instahyre</p>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
-                                    <div
-                                        class="bg-dragon-bg/50 rounded-lg p-3 border border-dragon-border/50 transition-colors hover:border-dragon-accent/30">
                                         <div
-                                            class="text-[10px] text-dragon-muted uppercase font-bold tracking-widest mb-1.5">
-                                            Salary & Location</div>
-                                        <div class="text-xs font-bold text-white flex items-center gap-3">
-                                            <span class="flex items-center gap-1"><i data-lucide="map-pin"
-                                                    class="w-3.5 h-3.5 text-dragon-muted"></i> Remote</span>
-                                            <span class="flex items-center gap-1"><i data-lucide="banknote"
-                                                    class="w-3.5 h-3.5 text-dragon-success"></i> ₹160K - ₹190K</span>
+                                            class="mt-5 pt-4 border-t border-dragon-border/50 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <button
+                                                class="intelligence-toggle w-full py-2.5 rounded bg-dragon-surface hover:bg-dragon-surfaceHighlight border border-dragon-border hover:border-dragon-muted/50 text-dragon-muted hover:text-white text-[11px] font-bold transition-all flex items-center justify-center gap-2 group"
+                                                type="button" data-target="analysis-card-2">
+                                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                                                <span class="toggle-text">View AI Match Analysis</span>
+                                                <i data-lucide="chevron-down"
+                                                    class="w-3 h-3 toggle-icon transition-transform"></i>
+                                            </button>
+
+                                            <button
+                                                class="intelligence-sidebar-trigger w-full py-2.5 rounded bg-dragon-accent/10 hover:bg-dragon-accent text-dragon-accent hover:text-white border border-dragon-accent/30 hover:border-dragon-accent text-[11px] font-bold transition-all flex items-center justify-center gap-2 shadow-sm"
+                                                type="button">
+                                                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i>
+                                                <span>View Intelligence Report</span>
+                                            </button>
+                                        </div>
+
+                                        <!-- Expanded Content (Hidden by default) -->
+                                        <div id="analysis-card-2" class="intelligence-content mt-6 space-y-6"
+                                            style="display: none;">
+                                            <div
+                                                class="p-4 bg-dragon-bg/50 rounded-xl border border-dragon-border border-dashed text-center">
+                                                <i data-lucide="sparkles"
+                                                    class="w-8 h-8 text-dragon-accent/50 mx-auto mb-2"></i>
+                                                <p class="text-xs text-dragon-muted">Detailed match analysis is
+                                                    generated in
+                                                    real-time for each role based on your unique profile.</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div
-                                        class="bg-dragon-bg/50 rounded-lg p-3 border border-dragon-border/50 transition-colors hover:border-dragon-accent/30">
-                                        <div
-                                            class="text-[10px] text-dragon-muted uppercase font-bold tracking-widest mb-1.5">
-                                            Post Status</div>
-                                        <div class="text-xs font-bold text-white flex items-center gap-2">
-                                            <i data-lucide="clock-4" class="w-4 h-4 text-dragon-accent"></i>
-                                            Posted 5h ago
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="flex flex-wrap gap-2">
-                                    <span
-                                        class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">Python</span>
-                                    <span
-                                        class="px-2 py-1 rounded text-[10px] font-medium bg-dragon-info/10 text-dragon-info border border-dragon-info/20">Django</span>
-                                </div>
-
-                                <div
-                                    class="mt-5 pt-4 border-t border-dragon-border/50 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <button
-                                        class="intelligence-toggle w-full py-2.5 rounded bg-dragon-surface hover:bg-dragon-surfaceHighlight border border-dragon-border hover:border-dragon-muted/50 text-dragon-muted hover:text-white text-[11px] font-bold transition-all flex items-center justify-center gap-2 group"
-                                        type="button" data-target="analysis-card-2">
-                                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                                        <span class="toggle-text">View AI Match Analysis</span>
-                                        <i data-lucide="chevron-down"
-                                            class="w-3 h-3 toggle-icon transition-transform"></i>
-                                    </button>
-
-                                    <button
-                                        class="intelligence-sidebar-trigger w-full py-2.5 rounded bg-dragon-accent/10 hover:bg-dragon-accent text-dragon-accent hover:text-white border border-dragon-accent/30 hover:border-dragon-accent text-[11px] font-bold transition-all flex items-center justify-center gap-2 shadow-sm"
-                                        type="button">
-                                        <i data-lucide="bar-chart-2" class="w-3.5 h-3.5"></i>
-                                        <span>View Intelligence Report</span>
-                                    </button>
-                                </div>
-
-                                <!-- Expanded Content (Hidden by default) -->
-                                <div id="analysis-card-2" class="intelligence-content mt-6 space-y-6"
-                                    style="display: none;">
-                                    <div
-                                        class="p-4 bg-dragon-bg/50 rounded-xl border border-dragon-border border-dashed text-center">
-                                        <i data-lucide="sparkles"
-                                            class="w-8 h-8 text-dragon-accent/50 mx-auto mb-2"></i>
-                                        <p class="text-xs text-dragon-muted">Detailed match analysis is generated in
-                                            real-time for each role based on your unique profile.</p>
-                                    </div>
-                                </div>
-                            </div>
                                 </div>
                             </div>
                         </div>
@@ -1156,7 +1271,7 @@
                         <h3 class="text-sm font-bold text-white">Career Trajectory</h3>
                         <!-- FIX 7: Legend for Dashed Line -->
                         <div
-                            class="flex items-center gap-2 text-[9px] text-dragon-muted bg-dragon-bg px-2 py-1 rounded border border-dragon-border">
+                            class="flex items-center gap-2 text-[11px] text-dragon-muted bg-dragon-bg px-2 py-1 rounded border border-dragon-border">
                             <span class="w-3 border-b border-dashed border-dragon-muted"></span> Estimated Path
                         </div>
                     </div>
@@ -1186,7 +1301,7 @@
                             <h4 class="text-xs font-bold text-white">Staff Engineer</h4>
                             <p class="text-[10px] text-dragon-muted">Est. 5-7 Years</p>
                             <div
-                                class="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-dragon-warning/10 text-dragon-warning text-[9px] border border-dragon-warning/20">
+                                class="mt-1 inline-flex items-center gap-1 px-2 py-0.5 rounded bg-dragon-warning/10 text-dragon-warning text-[11px] border border-dragon-warning/20">
                                 <i data-lucide="alert-circle" class="w-2 h-2"></i> Need: System Design
                             </div>
                         </div>
@@ -1210,7 +1325,7 @@
                             <div class="text-xl font-heading font-bold text-white">72<span
                                     class="text-sm text-dragon-muted font-normal">/100</span></div>
                             <!-- FIX 8: Benchmark Context -->
-                            <div class="text-[9px] text-dragon-muted">Avg for Senior GenAI: <span
+                            <div class="text-[11px] text-dragon-muted">Avg for Senior GenAI: <span
                                     class="text-white font-bold">68</span></div>
                         </div>
                     </div>
@@ -1273,12 +1388,12 @@
                         <div class="flex items-center justify-between">
                             <div class="flex flex-col">
                                 <span class="text-xs font-bold text-white">Vector DBs</span>
-                                <span class="text-[9px] text-dragon-muted">High Growth</span>
+                                <span class="text-[11px] text-dragon-muted">High Growth</span>
                             </div>
                             <!-- FIX 10: Replaced Sparkline with Big Stat -->
                             <div class="flex flex-col items-end">
                                 <span class="text-lg font-bold text-dragon-success">+45%</span>
-                                <span class="text-[9px] text-dragon-muted">Demand</span>
+                                <span class="text-[11px] text-dragon-muted">Demand</span>
                             </div>
                             <button
                                 class="p-1.5 rounded bg-dragon-surfaceHighlight hover:bg-dragon-accent hover:text-white text-dragon-muted transition-colors group relative"
@@ -1291,12 +1406,12 @@
                         <div class="flex items-center justify-between pt-3 border-t border-dragon-border/50">
                             <div class="flex flex-col">
                                 <span class="text-xs font-bold text-white">LangChain</span>
-                                <span class="text-[9px] text-dragon-muted">Emerging</span>
+                                <span class="text-[11px] text-dragon-muted">Emerging</span>
                             </div>
                             <!-- FIX 10: Replaced Sparkline with Big Stat -->
                             <div class="flex flex-col items-end">
                                 <span class="text-lg font-bold text-dragon-info">+32%</span>
-                                <span class="text-[9px] text-dragon-muted">Demand</span>
+                                <span class="text-[11px] text-dragon-muted">Demand</span>
                             </div>
                             <!-- FIX 11: Hidden Learn Icon (No Resource) -->
                             <div class="w-6 h-6"></div>
@@ -1313,7 +1428,7 @@
 
     <!-- Floating Compare Bar -->
     <div id="compare-bar"
-        class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-dragon-surfaceHighlight border border-dragon-accent/50 shadow-[0_0_20px_rgba(var(--dragon-accent-rgb),0.3)] px-6 py-4 rounded-full z-50 flex items-center justify-between gap-6 transition-all transform translate-y-32 hidden">
+        class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-dragon-surfaceHighlight border border-dragon-accent/50 shadow-[0_0_20px_rgba(183,110,121,0.3)] px-6 py-4 rounded-full z-50 flex items-center justify-between gap-6 transition-all transform translate-y-32 hidden">
         <div class="flex items-center gap-4">
             <div class="flex -space-x-3" id="compare-avatars">
                 <!-- Avatars of compared jobs will go here -->
@@ -1667,7 +1782,7 @@
             <div class="p-4 lg:p-6 border-t border-dragon-border bg-dragon-surface/50 backdrop-blur-md shrink-0">
                 <div class="max-w-4xl mx-auto">
                     <button
-                        class="w-full py-4 rounded-xl bg-dragon-accent hover:bg-dragon-accentHover text-white font-bold text-base transition-all shadow-glow hover:shadow-[0_0_30px_rgba(255,59,92,0.4)] flex items-center justify-center gap-2 transform hover:-translate-y-0.5">
+                        class="w-full py-4 rounded-xl bg-dragon-accent hover:bg-dragon-accentHover text-white font-bold text-base transition-all shadow-glow hover:shadow-[0_0_30px_rgba(183,110,121,0.4)] flex items-center justify-center gap-2 transform hover:-translate-y-0.5">
                         Apply Now <i data-lucide="external-link" class="w-5 h-5"></i>
                     </button>
                 </div>
@@ -2128,7 +2243,7 @@
 
         function displaySavedJobs() {
             const savedJobsList = Object.entries(savedJobs);
-            
+
             // Update feed label and count
             feedLabel.textContent = 'Saved Jobs';
             feedCount.textContent = `${savedJobsList.length} Jobs Found`;
@@ -2255,25 +2370,25 @@
 
             dynamicFeed.innerHTML = html;
             lucide.createIcons();
-            
+
             // Re-attach event handlers for remove buttons
             document.querySelectorAll('.remove-from-collection').forEach(btn => {
-                btn.addEventListener('click', function(e) {
+                btn.addEventListener('click', function (e) {
                     e.stopPropagation();
                     const jobId = this.dataset.jobId;
                     const collectionId = this.dataset.collection;
-                    
+
                     if (savedJobs[jobId]) {
                         savedJobs[jobId].collections = savedJobs[jobId].collections.filter(id => id !== collectionId);
                         if (savedJobs[jobId].collections.length === 0) {
                             delete savedJobs[jobId];
                         }
                         localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
-                        
+
                         // Refresh the saved jobs display
                         displaySavedJobs();
                         updateSavedCount();
-                        
+
                         // Update save button state
                         const saveBtn = document.querySelector(`[data-job-id="${jobId}"]`);
                         if (saveBtn) {
@@ -2314,12 +2429,12 @@
         // Consolidated Click Event Handler - Prevents conflicts
         document.addEventListener('click', function (e) {
             // Exclude filter buttons from job card click handler
-            if (e.target.closest('#filter-all-jobs') || 
-                e.target.closest('#filter-recommended-jobs') || 
+            if (e.target.closest('#filter-all-jobs') ||
+                e.target.closest('#filter-recommended-jobs') ||
                 e.target.closest('#filter-saved-jobs')) {
                 return;
             }
-            
+
             // Intelligence Toggle Handler
             const button = e.target.closest('.intelligence-toggle');
             if (button) {
@@ -2328,7 +2443,7 @@
 
                 const targetId = button.getAttribute('data-target');
                 console.log('Intelligence toggle clicked, target:', targetId);
-                
+
                 const content = document.getElementById(targetId);
                 const toggleText = button.querySelector('.toggle-text');
                 const toggleIcon = button.querySelector('.toggle-icon');
@@ -2338,7 +2453,7 @@
                 if (content) {
                     const currentDisplay = content.style.display || 'none';
                     console.log('Current display:', currentDisplay);
-                    
+
                     if (currentDisplay === 'none') {
                         content.style.display = 'block';
                         if (toggleText) toggleText.textContent = 'Hide AI Match Analysis';
@@ -2501,7 +2616,7 @@
                                 <i data-lucide="banknote" class="w-4 h-4 text-dragon-success"></i>
                             </div>
                             <div>
-                                <div class="text-[10px] text-dragon-muted uppercase font-bold tracking-wider mb-0.5">Salary</div>
+                                <div class="text-[11px] text-dragon-muted uppercase font-bold tracking-wider mb-0.5">Salary</div>
                                 <div class="text-sm font-bold text-white">${job.salary}</div>
                             </div>
                         </div>
@@ -2511,7 +2626,7 @@
                                 <i data-lucide="map-pin" class="w-4 h-4 text-dragon-info"></i>
                             </div>
                             <div>
-                                <div class="text-[10px] text-dragon-muted uppercase font-bold tracking-wider mb-0.5">Location</div>
+                                <div class="text-[11px] text-dragon-muted uppercase font-bold tracking-wider mb-0.5">Location</div>
                                 <div class="text-sm font-bold text-white">${job.location}</div>
                             </div>
                         </div>
@@ -2521,7 +2636,7 @@
                                 <i data-lucide="briefcase" class="w-4 h-4 text-dragon-accent"></i>
                             </div>
                             <div>
-                                <div class="text-[10px] text-dragon-muted uppercase font-bold tracking-wider mb-0.5">Work Type</div>
+                                <div class="text-[11px] text-dragon-muted uppercase font-bold tracking-wider mb-0.5">Work Type</div>
                                 <div class="text-sm font-bold text-white">Full Time / Remote</div>
                             </div>
                         </div>
@@ -2559,6 +2674,17 @@
 
         // Initialize App
         document.addEventListener('DOMContentLoaded', function () {
+            // Skeleton Loader Logic
+            const skeleton = document.getElementById('skeleton-feed');
+            const feed = document.getElementById('all-jobs-feed');
+            if (skeleton && feed) {
+                feed.classList.add('hidden');
+                setTimeout(() => {
+                    skeleton.classList.add('hidden');
+                    feed.classList.remove('hidden');
+                }, 800); // simulates load
+            }
+
             initJobCards();
 
             // Close button click
@@ -2611,7 +2737,7 @@
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
                 console.log('Lucide icons initialized');
-                
+
                 // Additional initialization after a short delay to catch any dynamically loaded elements
                 setTimeout(() => {
                     lucide.createIcons();
